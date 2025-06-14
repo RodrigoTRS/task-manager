@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { ChevronLeft } from "lucide-react";
+import z from "zod";
 
 import { PageTitle } from "@/components/page-title";
 import { Button } from "@/components/ui/button";
@@ -11,8 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Loader } from "@/components/loader";
-import { useRouter } from "next/navigation";
 import { trpc } from "@/app/api/trpc/_trpc/client";
+import { toast } from "sonner";
+
+const schema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+});
 
 export default function CreatePage() {
   const router = useRouter();
@@ -20,8 +27,8 @@ export default function CreatePage() {
 
   const { mutate, isPending } = trpc.addTask.useMutation({
     onSuccess: () => {
-      utils.getTasks.invalidate();
       router.push("/");
+      utils.getTasks.invalidate();
     },
     onError: (err) => {
       console.error("Failed to create task:", err.message);
@@ -34,6 +41,17 @@ export default function CreatePage() {
     const formData = new FormData(event.currentTarget);
     const title = formData.get("title")?.toString() || "";
     const description = formData.get("description")?.toString() || "";
+
+    const parsed = schema.safeParse({ title, description });
+    if (!parsed.success) {
+      const formatted = parsed.error.format();
+      const error =
+        formatted.title?._errors[0] ||
+        formatted.description?._errors[0] ||
+        "Invalid input";
+      toast.error(error);
+      return;
+    }
 
     mutate({ title, description });
   }

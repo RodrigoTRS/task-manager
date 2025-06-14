@@ -30,9 +30,7 @@ export default function UpdatePage() {
     },
     onError: (error) => {
       if (error.message === "NOT_FOUND")
-        toast.error("The task you've tryed to update doesn't exist", {
-          position: "bottom-right",
-        });
+        toast.error("The task you've tryed to update doesn't exist");
       console.log("Failed to update task:", error.message);
     },
   });

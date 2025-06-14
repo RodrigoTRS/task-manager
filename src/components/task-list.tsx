@@ -47,14 +47,13 @@ export function TaskList({ initialTasks, totalCount }: TaskListProps) {
     if (inView && hasMore && !isFetching) {
       refetch()
         .then((result) => {
-          console.log(result);
           if (result.data) {
             insertTasks(result.data.tasks);
             incrementNextPage();
           }
         })
         .catch((error) => {
-          console.error(error);
+          console.log("Failed to fetch more tasks: ", error);
         });
     }
   }, [inView]);

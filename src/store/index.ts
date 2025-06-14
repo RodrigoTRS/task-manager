@@ -13,8 +13,6 @@ export interface TaskListState {
   initializeStore: (initialTasks: Task[], totalCount: number) => void;
   insertTasks: (newTasks: Task[]) => void;
   incrementNextPage: () => void;
-  optimisticDelete: (id: string) => void;
-  verifyIfTaskIsLoaded: (id: string) => boolean;
 }
 
 export const useStore = create<TaskListState>((set, get) => {
@@ -43,24 +41,6 @@ export const useStore = create<TaskListState>((set, get) => {
     },
     incrementNextPage: () => {
       set((state) => ({ nextPage: state.nextPage + 1 }));
-    },
-    optimisticDelete: (id: string) => {
-      set((state) => {
-        const updatedTasks = state.tasks.filter((task) => task.id !== id);
-        const newTotal = state.totalCount - 1;
-        return {
-          tasks: updatedTasks,
-          totalCount: newTotal,
-          hasMore: updatedTasks.length < newTotal,
-        };
-      });
-    },
-    verifyIfTaskIsLoaded: (id) => {
-      const { tasks } = get();
-
-      const task = tasks.find((task) => task.id === id);
-
-      return !!task;
     },
   };
 });

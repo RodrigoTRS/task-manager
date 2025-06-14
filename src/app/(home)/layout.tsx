@@ -8,7 +8,7 @@ export default function HomeLayout({ children }: Readonly<LayoutProps>) {
       <Header />
       <main className="flex flex-col w-full max-w-[1120px] mx-auto my-4 p-4 gap-8">
         {children}
-        <Toaster richColors />
+        <Toaster position="bottom-right" richColors />
       </main>
     </>
   );

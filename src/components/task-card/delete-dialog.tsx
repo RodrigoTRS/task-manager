@@ -16,7 +16,6 @@ import {
   AlertDialogAction,
 } from "../ui/alert-dialog";
 import { Loader } from "../loader";
-import { useStore } from "@/store";
 import { trpc } from "@/app/api/trpc/_trpc/client";
 
 interface DeleteDialogProps {
@@ -24,32 +23,24 @@ interface DeleteDialogProps {
 }
 
 export function DeleteDialog({ taskId }: DeleteDialogProps) {
-  const { optimisticDelete, verifyIfTaskIsLoaded } = useStore();
   const utils = trpc.useUtils();
 
   const { mutate, isPending } = trpc.deleteTask.useMutation({
     onSuccess: async () => {
+      window.location.reload();
       toast.success("Task deleted successfully", {
         position: "bottom-right",
       });
       utils.getTasks.invalidate();
-      await utils.getTasks.fetch();
     },
     onError: (error) => {
       if (error.message === "NOT_FOUND")
-        toast.error("The task you've tryed to delete doesn't exist", {
-          position: "bottom-right",
-        });
+        toast.error("The task you've tryed to delete doesn't exist");
       console.log("Failed to delete task:", error.message);
     },
   });
 
   async function onClickToDelete() {
-    const taskIsLoaded = verifyIfTaskIsLoaded(taskId);
-    if (taskIsLoaded) {
-      optimisticDelete(taskId);
-    }
-
     mutate(taskId);
   }
 
@@ -61,7 +52,7 @@ export function DeleteDialog({ taskId }: DeleteDialogProps) {
           variant="outline"
           className="hover:text-destructive"
         >
-          <Trash2 size={16} />
+          {isPending ? <Loader /> : <Trash2 size={16} />}
         </Button>
       </AlertDialogTrigger>
 
@@ -78,11 +69,10 @@ export function DeleteDialog({ taskId }: DeleteDialogProps) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            disabled={isPending}
             onClick={onClickToDelete}
             className="bg-destructive hover:bg-destructive hover:brightness-90"
           >
-            {isPending ? <Loader /> : "Delete"}
+            Delete
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
