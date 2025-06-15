@@ -2,13 +2,27 @@
 
 This is a Task Manager application built using Next.js v15 and tRPC, exposing the backend on the same port. This document deatils some of the features developed and the decisions I made during the build process.
 
-## Decisions
+## How to run the project
 
-How to run the application locally:
+1. Clone the project repository by runnig:
+
+```
+git clone git@github.com:RodrigoTRS/task-manager.git
+```
+
+2. Install dependencies by running:
+
+```
+npm install
+```
+
+3. Run the application locally by running:
 
 ```
 npm run dev
 ```
+
+## Extra
 
 How to build the application:
 
