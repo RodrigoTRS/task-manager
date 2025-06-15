@@ -21,11 +21,15 @@ export interface LayoutProps {
 }
 
 export default function RootLayout({ children }: Readonly<LayoutProps>) {
+  const baseURL = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
         <body className={`${poppins.className} antialiased bg-background/50`}>
-          <TRPCProvider>
+          <TRPCProvider baseURL={baseURL}>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
