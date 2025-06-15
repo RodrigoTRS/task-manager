@@ -85,7 +85,7 @@ export const appRouter = router({
     }),
   deleteTask: publicProcedure.input(z.string()).mutation(async (options) => {
     const { success, error, body } = await deleteTask(options.input);
-    if (!success) {
+    if (success) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: error,

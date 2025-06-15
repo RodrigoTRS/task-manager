@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
@@ -10,7 +8,7 @@ export interface ErrorPageProps {
   reset: () => void;
 }
 
-export default function Error({ error, reset }: ErrorPageProps) {
+export default function Error({ reset }: ErrorPageProps) {
   const router = useRouter();
 
   return (
@@ -20,8 +18,8 @@ export default function Error({ error, reset }: ErrorPageProps) {
       </h1>
 
       <p>
-        You can try to reload the page again if you believe that's an error, or
-        you can go back to home page.
+        You can try to reload the page again if you believe that&apos;s an
+        error, or you can go back to home page.
       </p>
       <div className="grid grid-cols-2 w-full gap-4">
         <Button onClick={() => router.push("/")} className="w-full">

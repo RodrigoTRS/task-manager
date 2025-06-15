@@ -1,4 +1,3 @@
-import { trpc } from "@/app/api/trpc/_trpc/client";
 import { Task } from "@/interfaces/task";
 import { create } from "zustand";
 
@@ -15,7 +14,7 @@ export interface TaskListState {
   incrementNextPage: () => void;
 }
 
-export const useStore = create<TaskListState>((set, get) => {
+export const useStore = create<TaskListState>((set) => {
   return {
     tasks: [],
     nextPage: 0,

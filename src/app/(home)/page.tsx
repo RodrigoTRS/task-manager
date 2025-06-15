@@ -25,7 +25,7 @@ export default async function HomePage() {
 
       <Separator />
 
-      <TaskList initialTasks={tasks} totalCount={pagination?.totalCount!} />
+      <TaskList initialTasks={tasks} totalCount={pagination!.totalCount} />
     </>
   );
 }
