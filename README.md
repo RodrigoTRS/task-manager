@@ -16,6 +16,12 @@ How to build the application:
 npm run build
 ```
 
+How to run the build:
+
+```
+npm run start
+```
+
 ## Decisions
 
 - <b>Tasks stores in a local file:</b> Instead of relying on an in-memory array, I opted to persist tasks in a local file. This approach avoids losing data on server restarts, which helps during development to test infinite scroll, and enables server-side revalidation, which wouldn’t be possible if the data existed only in memory.
